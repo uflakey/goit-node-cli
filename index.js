@@ -1,4 +1,6 @@
-import { program } from "commander";
+const { program } = require("commander");
+const contact = require("./db/contacts");
+
 program
   .option("-a, --action <type>", "choose action")
   .option("-i, --id <type>", "user id")
@@ -10,24 +12,24 @@ program.parse();
 
 const options = program.opts();
 
-// TODO: рефакторити
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      // ...
-      break;
+      const allContact = await contact.listContacts();
+      return console.table(allContact);
 
     case "get":
-      // ... id
-      break;
+      const getContact = await contact.getContactById(id);
+
+      return console.log(getContact);
 
     case "add":
-      // ... name email phone
-      break;
+      const add = await contact.addContact(name, email, phone);
+      return console.log(add);
 
     case "remove":
-      // ... id
-      break;
+      const remove = await contact.removeContact(id);
+      return console.log(remove);
 
     default:
       console.warn("\x1B[31m Unknown action type!");
