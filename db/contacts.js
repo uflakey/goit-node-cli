@@ -27,15 +27,15 @@ async function removeContact(contactId) {
 
 async function addContact(name, email, phone) {
   const contacts = await listContacts();
-  const payload = {
+  const newContact = {
     name,
     email,
     phone,
     id: shortid.generate(),
   };
-  contacts.push(payload);
+  contacts.push(newContact);
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return contacts;
+  return newContact;
 }
 
 module.exports = {
